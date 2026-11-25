@@ -8,9 +8,12 @@ import {
     totalVendidoM,
     ventasPorCiudadM,
     unidadesVendidasM,
+    ventaMayorM,
+    ticketPromedioM,
     totalPorCiudad,
     unidadesPorProducto,
     topProductosPorValor,
+    ventasDelDia,
 } from "./analitica.js";
 
 const mismaSalida = (valorCiclo, valorMetodos) =>
@@ -35,6 +38,32 @@ mostrarComparacion(
     "ventasPorCiudad Medellín",
     ventasPorCiudad(ventas, "medellín"),
     ventasPorCiudadM(ventas, "medellín"),
+);
+mostrarComparacion(
+    "ventaMayor",
+    ventaMayor(ventas),
+    ventaMayorM(ventas),
+);
+mostrarComparacion(
+    "ticketPromedio",
+    ticketPromedio(ventas),
+    ticketPromedioM(ventas),
+);
+mostrarComparacion(
+    "ticketPromedio sin ventas",
+    ticketPromedio(ventasDelDia(ventas, "2026-09-10")),
+    ticketPromedioM(ventasDelDia(ventas, "2026-09-10")),
+);
+
+const ciudadesVariantes = [
+    { ciudad: "Bogotá", cantidad: 1, precio: 1000 },
+    { ciudad: " bogotá ", cantidad: 1, precio: 2000 },
+];
+const agrupacionCiudades = totalPorCiudad(ciudadesVariantes);
+console.log(
+    `ciudadesNormalizadas: ${
+        Object.keys(agrupacionCiudades).length === 1 ? "OK" : "DIFERENTE"
+    }`,
 );
 
 console.log("\nResultados del archivo reporte.js:");

@@ -38,7 +38,7 @@ function ticketPromedio(ventas) {
     for (const v of ventas) {
         if (v.cantidad > 0) ventasValidas++;
     }
-    return total / ventasValidas;
+    return ventasValidas === 0 ? 0 : total / ventasValidas;
 }
 
 function totalVendidoM(ventas) {
@@ -55,6 +55,20 @@ function ventasPorCiudadM(ventas, ciudad) {
     return ventas
         .filter((venta) => normalizar(venta.ciudad) === ciudadNormalizada)
         .reduce((total, venta) => total + valorVenta(venta), 0);
+}
+
+function ventaMayorM(ventas) {
+    if (ventas.length === 0) return null;
+
+    return ventas.reduce((mayor, venta) =>
+        valorVenta(venta) > valorVenta(mayor) ? venta : mayor
+    );
+}
+
+function ticketPromedioM(ventas) {
+    const total = totalVendidoM(ventas);
+    const ventasValidas = ventas.filter((venta) => venta.cantidad > 0).length;
+    return ventasValidas === 0 ? 0 : total / ventasValidas;
 }
 
 function totalPorCiudad(ventas) {
@@ -86,6 +100,10 @@ function topProductosPorValor(ventas, k) {
         .slice(0, k);
 }
 
+function ventasDelDia(ventas, fecha) {
+    return ventas.filter((venta) => venta.fecha === fecha);
+}
+
 export {
     totalVendido,
     ventaMayor,
@@ -95,7 +113,10 @@ export {
     totalVendidoM,
     unidadesVendidasM,
     ventasPorCiudadM,
+    ventaMayorM,
+    ticketPromedioM,
     totalPorCiudad,
     unidadesPorProducto,
     topProductosPorValor,
+    ventasDelDia,
 };

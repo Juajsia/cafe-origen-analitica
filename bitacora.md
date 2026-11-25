@@ -112,3 +112,25 @@
 - **¿Qué transformo?** Calcula el valor de cada venta y convierte los totales agrupados en objetos con `producto` y `total`.
 - **¿Qué acumulo?** El valor total generado por cada producto.
 - **¿Cómo agrupo?** Agrupa las ventas por producto, suma su valor y luego ordena los productos de mayor a menor. Usa un arreglo nuevo para ordenar, por lo que no modifica `ventas`.
+
+## 4. Incidencias reportadas por la gerente
+
+### Incidencia 1: Bogotá aparecía dos veces
+
+- **Síntoma:** La misma ciudad aparecía como dos grupos o resultados separados cuando se escribía con mayúsculas, minúsculas o espacios.
+- **Entrada que lo produce:** Ventas sintéticas con `ciudad: "Bogotá"` y `ciudad: " bogotá "` o datos agrupados sin normalizar previamente.
+- **Hipótesis:** Las claves del objeto agrupador conservaban el texto original y JavaScript las trataba como claves distintas.
+- **Prueba realizada:** Se ejecutó `totalPorCiudad` con las dos variantes sintéticas anteriores. La prueba comprobó si quedaba una sola clave.
+- **Causa:** La agrupación no utilizaba una representación uniforme para el nombre de la ciudad.
+- **Corrección:** `totalPorCiudad` aplica `trim().toLowerCase()` antes de usar la ciudad como clave del acumulador.
+- **Demostración actual:** La prueba mostró `ciudadesNormalizadas: OK` y el conjunto sintético produjo una única clave normalizada con el total esperado de COP 3.000.
+
+### Incidencia 2: El ticket promedio daba NaN en un día sin ventas
+
+- **Síntoma:** Al calcular el ticket promedio de una fecha que no tenía registros, el resultado era `NaN`.
+- **Entrada que lo produce:** `ventasDelDia(ventas, "2026-09-10")`, que devuelve un arreglo vacío.
+- **Hipótesis:** El cálculo dividía el total vendido entre cero ventas válidas.
+- **Prueba realizada:** Se ejecutó `ticketPromedio` y `ticketPromedioM` con el arreglo vacío. También se mostró el resumen de esa fecha en el reporte.
+- **Causa:** Ambas funciones calculaban `total / ventasValidas` sin comprobar que `ventasValidas` fuera cero.
+- **Corrección:** Ambas implementaciones devuelven `0` cuando no existen ventas válidas; de este modo no realizan una división entre cero.
+- **Demostración actual:** Las dos pruebas de ticket promedio sin ventas mostraron `OK`, y el reporte presentó `COP 0` y no `NaN`.
