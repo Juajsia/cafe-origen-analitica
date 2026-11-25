@@ -5,8 +5,6 @@ import {
     ventasPorCiudad,
     unidadesVendidas,
     ticketPromedio,
-} from "./reporte.js";
-import {
     totalVendidoM,
     ventasPorCiudadM,
     unidadesVendidasM,
