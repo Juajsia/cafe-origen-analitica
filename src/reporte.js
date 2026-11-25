@@ -1,5 +1,3 @@
-import { ventas } from "./datos.js";
-
 const valorVenta = (venta) => venta.cantidad * venta.precio;
 const normalizar = (texto) => texto.trim().toLowerCase();
 
@@ -43,8 +41,10 @@ function ticketPromedio(ventas) {
   return total / ventasValidas;
 }
 
-console.log(totalVendido(ventas));
-console.log(ventaMayor(ventas));
-console.log(unidadesVendidas(ventas));
-console.log(ventasPorCiudad(ventas, "medellín"));
-console.log(ticketPromedio(ventas));
+export {
+  totalVendido,
+  ventaMayor,
+  ventasPorCiudad,
+  unidadesVendidas,
+  ticketPromedio,
+};
